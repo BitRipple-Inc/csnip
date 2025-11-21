@@ -20,6 +20,14 @@ function(add_docs_target)
 	set(DOXYGEN_EXAMPLE_PATH examples/)
 	set(DOXYGEN_QUIET YES)
 
+	# Doxygen Awesome CSS configuration
+	set(DOXYGEN_GENERATE_TREEVIEW YES)
+	set(DOXYGEN_DISABLE_INDEX NO)
+	set(DOXYGEN_FULL_SIDEBAR NO)
+	set(DOXYGEN_HTML_EXTRA_STYLESHEET
+		${CMAKE_CURRENT_SOURCE_DIR}/doxygen-awesome-css/doxygen-awesome.css)
+	set(DOXYGEN_HTML_COLORSTYLE LIGHT)
+
 	# Get the sources from the csnip library
 	get_target_sources(src_csnip csnip)
 
