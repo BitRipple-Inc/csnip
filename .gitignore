@@ -1,3 +1,6 @@
 *.o
 *.os
 *.so
+build/
+.cache/
+compile_commands.json
