@@ -19,6 +19,7 @@ set(tests_c
 	meanvar_test0.c
 	mem_test0.c
 	mem_test1.c
+	mem_test_alloc_bytes.c
 	mempool_test0.c
 	ringbuf_test.c
 	ringbuf2_test.c

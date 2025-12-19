@@ -122,6 +122,46 @@ void csnip_mem_aligned_free(void* mem);
 			csnip_err_Raise(csnip_err_NOMEM, err); \
 	} while(0)
 
+/**	Allocate a specific number of bytes.
+ *
+ *	Allocate @a nBytes of memory. The allocated pointer will be
+ *	written to the @a ptr output argument.
+ *
+ *	This function uses malloc() under the hood, so it can be freed
+ *	with either libc's free() or csnip_mem_Free().
+ *
+ *	@param	nBytes
+ *		Number of bytes to allocate.
+ *
+ *	@param	ptr
+ *		The lvalue to assign to.  This must be a pointer type.
+ *		If the allocation fails, a NULL value will be written into
+ *		the lvalue, in addition to the error being returned or
+ *		processed according to the err argument.
+ *
+ *	@param	err
+ *		Error return; accepts the special _ and error_ignore
+ *		values, as explained in csnip_err_Raise().
+ */
+#define csnip_mem_AllocBytes(nBytes, ptr, err) \
+	do { \
+		(ptr) = csnip_mem__cxxcast(ptr, \
+			csnip_mem_alloc((nBytes), 1)); \
+		if ((ptr) == NULL) \
+			csnip_err_Raise(csnip_err_NOMEM, err); \
+	} while(0)
+
+/**	Allocate a specific number of bytes and assign the address to ptr.
+ *
+ *	This is an expression version of mem_AllocBytes(), similar to mem_Allocx().
+ *	It assigns to the pointer and returns 0 in the success
+ *	case.  In the error case, the pointer is set to NULL and an
+ *	error code is returned.
+ */
+#define csnip_mem_AllocBytesx(n, ptr) \
+	(((ptr) = csnip_mem__cxxcast(ptr, csnip_mem_alloc((n), 1))) \
+	 ? 0 : csnip_err_NOMEM)
+
 /**	Expression macro for zero-initialized allocation. */
 #define csnip_mem_Alloc0x(nMember, ptr) \
 	(((ptr) = csnip_mem__cxxcast(ptr, calloc(nMember, sizeof(*(ptr))))) \
@@ -259,8 +299,10 @@ void csnip_mem_aligned_free(void* mem);
 #define mem_alloc		csnip_mem_alloc
 #define mem_aligned_alloc	csnip_mem_aligned_alloc
 #define mem_aligned_free	csnip_mem_aligned_free
-#define mem_Alloc		csnip_mem_Alloc
+#define mem_Alloc       csnip_mem_Alloc
+#define mem_AllocBytes  csnip_mem_AllocBytes
 #define mem_Allocx		csnip_mem_Allocx
+#define mem_AllocBytesx csnip_mem_AllocBytesx
 #define mem_Alloc0		csnip_mem_Alloc0
 #define mem_Alloc0x		csnip_mem_Alloc0x
 #define mem_AlignedAlloc	csnip_mem_AlignedAlloc
