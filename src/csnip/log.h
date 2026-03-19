@@ -173,7 +173,7 @@ inline const char* csnip_log__file(const char* filepath)
 {
 	char* p = strrchr(filepath, '/');
 	char* q = NULL;
-#ifdef WIN32
+#ifdef _WIN32
 	q = strrchr(filepath, '\\');
 #endif
 	if (p == NULL) {
