@@ -275,7 +275,22 @@
 		if (pool->first_free == NULL) { \
 			size_t sz = pool->n_items; \
 			if (sz < 8) sz = 8; \
-			pool->first_free = prefix##get_slab(sz, err); \
+			if (pool->n_slabs == pool->cap_slabs) { \
+				size_t nc = pool->cap_slabs ? \
+					2 * pool->cap_slabs : 4; \
+				int e = 0; \
+				csnip_mem_Realloc(nc, pool->slabs, e); \
+				if (e) { \
+					csnip_err_Raise(e, *err); \
+					return NULL; \
+				} \
+				pool->cap_slabs = nc; \
+			} \
+			itemtype* sl = prefix##get_slab(sz, err); \
+			if (sl == NULL) \
+				return NULL; \
+			pool->slabs[pool->n_slabs++] = sl; \
+			pool->first_free = sl; \
 		} \
 		\
 		/* Alloc and return */ \
