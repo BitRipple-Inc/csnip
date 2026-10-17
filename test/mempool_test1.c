@@ -54,6 +54,12 @@ int main(void)
 				"have %zu\n", pool.n_slabs);
 		pass = 0;
 	}
+	for (size_t i = 0; pass && i < pool.n_slabs; ++i) {
+		if (pool.slabs[i] == NULL) {
+			fprintf(stderr, "Error:  slab %zu is NULL\n", i);
+			pass = 0;
+		}
+	}
 	for (int i = 0; pass && i < N; ++i) {
 		if (it[i]->v != i) {
 			fprintf(stderr, "Error:  Value mismatch at %d\n", i);
