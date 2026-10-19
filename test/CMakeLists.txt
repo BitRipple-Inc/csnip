@@ -21,6 +21,7 @@ set(tests_c
 	mem_test1.c
 	mem_test_alloc_bytes.c
 	mempool_test0.c
+	mempool_test1.c
 	ringbuf_test.c
 	ringbuf2_test.c
 #	rng_mt_test.c
